@@ -1,0 +1,36 @@
+.centered-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .centered-form {
+    text-align: center;
+    width: auto;
+  }
+
+.textarea-wrapper {
+    margin-top: 20px; /* Adjust the margin as needed to control vertical placement */
+  }
+
+  .btn-3d {
+    background: linear-gradient(to bottom, #428bca 0%, #357ebd 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 20px; /* Adjust padding to your liking */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Added text shadow for better visibility */
+    border-radius: 5px; /* Add rounded corners */
+    transition: background 0.3s ease;
+  }
+  
+  .btn-3d:hover {
+    background: linear-gradient(to bottom, #357ebd 0%, #428bca 100%);
+  }
+
+.second-condition-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}

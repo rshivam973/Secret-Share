@@ -1,0 +1,45 @@
+.landing-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 45%;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+}
+.row {
+  height: 600px;
+}
+
+.column {
+  float: left;
+}
+.first {
+  width: 50%;
+}
+.second {
+  width: 50%;
+  align-items: center;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .column.first,
+  .column.second {
+    width: 100%;
+  }
+}

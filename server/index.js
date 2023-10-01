@@ -3,14 +3,17 @@
 const express=require('express');
 const mongoose=require('mongoose');
 const cors=require('cors');
+
 var bodyParser=require('body-parser');
+const DB = process.env.DATABASE;
+const PORT= process.env.PORT || 5000;
 
 const app=express();
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
 app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/SecretShareDB",{useNewUrlParser:true})
+mongoose.connect(`${DB}/SecretShareDB`,{useNewUrlParser:true})
 .then(()=>{
     console.log("database connected")
 
@@ -159,6 +162,6 @@ app.get("/check-user/:username", async(req, res)=>{
 
 
 
-app.listen(5000,()=>{
+app.listen(PORT,()=>{
     console.log("backend started at port 5000")
 });

@@ -116,8 +116,14 @@ const Dashboard = () => {
 
       )}
 
-      <div>
-        <DataDisplay data={userDetail.messages} />
+      <div className="">
+        {userDetail && userDetail.messages && userDetail.messages.length > 0 ? (
+          <DataDisplay data={userDetail.messages} />
+        ) : (
+          <div className="text-center">
+          <p>No messages available.</p>
+          </div>
+        )}
       </div>
 
     <ToastContainer />

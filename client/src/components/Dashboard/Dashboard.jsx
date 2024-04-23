@@ -5,8 +5,9 @@ import { AuthContext } from "../Context/AuthContext";
 import "./Dashboard.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCopy} from "@fortawesome/free-regular-svg-icons";
+import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
+const BackendURL = process.env.REACT_APP_BACKEND_URL;
 
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
@@ -18,7 +19,6 @@ function getRandomColor() {
 }
 
 const DataDisplay = ({ data }) => {
-
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleString(); // Adjust the format as needed
@@ -39,7 +39,8 @@ const DataDisplay = ({ data }) => {
               fontWeight: "bold",
             }}
           >
-            <p>{message.content}</p><br/>
+            <p>{message.content}</p>
+            <br />
             <p>{formatDate(message.timestamp)}</p>
           </div>
         ))
@@ -50,24 +51,25 @@ const DataDisplay = ({ data }) => {
   );
 };
 
-
 const Dashboard = () => {
   const navigate = useNavigate();
 
-
-  const user = localStorage.getItem("user");
   const { userDetail, setUserDetail, isLoggedIn } = useContext(AuthContext);
+  const [user, setUser] = useState('');
+  const [loading, setLoading] = useState(true); // State to track loading
 
   useEffect(() => {
-
-    if(!user) navigate('/login');
-
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`/get-details?email=${user}`);
+        const user = await localStorage.getItem("user");
+        console.log("user: ", user);
+        if(!user) navigate('/login');
+        setUser(user);
+        const response = await fetch(`${BackendURL}/get-details?email=${user}`);
         if (response.ok) {
           const data = await response.json();
           setUserDetail(data);
+          setLoading(false); // Set loading to false after fetching data
         } else {
           console.error("Failed to fetch user details");
         }
@@ -92,16 +94,21 @@ const Dashboard = () => {
     toast.success("Text copied to clipboard");
   };
 
+  if (loading) {
+    return <div className="flex flex-row justify-center items-center text-lg">Loading user details...</div>; // Loader when loading is true
+  }
+
   return (
     <div>
       <Navi />
-      {console.log(user)};{console.log(userDetail)};
+      {console.log(user)};
+      {console.log(userDetail)};
       <div className="w-50 mx-40 border-2 flex justify-center main-div border-indigo-600">
         Share your link:
         <br />
         <span>
           secretshare.me/{userDetail.username}
-          <button className="ml-2" onClick={() => handleCopy(`http://localhost:3000/${userDetail.username}`)}><FontAwesomeIcon icon={faCopy} size="lg" /></button>
+          <button className="ml-2" onClick={() => handleCopy(`localhost:3000/${userDetail.username}`)}><FontAwesomeIcon icon={faCopy} size="lg" /></button>
         </span>
       </div>
       {userDetail && (
@@ -113,7 +120,6 @@ const Dashboard = () => {
             </li>
           </ul>
         </div>
-
       )}
 
       <div className="">
@@ -121,12 +127,12 @@ const Dashboard = () => {
           <DataDisplay data={userDetail.messages} />
         ) : (
           <div className="text-center">
-          <p>No messages available.</p>
+            <p>No messages available.</p>
           </div>
         )}
       </div>
 
-    <ToastContainer />
+      <ToastContainer />
     </div>
   );
 };

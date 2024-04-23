@@ -4,11 +4,12 @@ import Navi from "../Navbar/Navbar";
 import "./Deployed.css";
 import Footer from "../Footer/Footer";
 import { ToastContainer, toast } from "react-toastify";
-
+const BackendURL = process.env.REACT_APP_BACKEND_URL;
 
 const Deployed = ({ username }) => {
   const [messageContent, setMessageContent] = useState("");
   const [usernameExists, setUsernameExists] = useState(true);
+  const [loading, setLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,15 +17,17 @@ const Deployed = ({ username }) => {
 
     if (messageContent.trim() === "") {
       toast.warning("Please enter some message.");
-      return; // Exit the function
+      return;
     }
+
+    setLoading(true); // Set loading to true when sending message
 
     const messageData = {
       content: messageContent,
     };
 
     try {
-      const response = await fetch(`/send-message/${username}`, {
+      const response = await fetch(`${BackendURL}/send-message/${username}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,17 +45,17 @@ const Deployed = ({ username }) => {
     } catch (error) {
       console.error(error);
       toast.error("Internal Server Error");
+    } finally {
+      setLoading(false); // Set loading to false after sending message
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const checkUsername = async () => {
       try {
-        const response = await fetch(`/check-user/${username}`); // Replace with your endpoint
-        console.log(response);
+        const response = await fetch(`${BackendURL}/check-user/${username}`);
         if (response.status === 404) {
-          // Username not found in the database
-          setUsernameExists(false); // Set usernameExists to false
+          setUsernameExists(false);
         }
       } catch (error) {
         console.error(error);
@@ -61,14 +64,13 @@ const Deployed = ({ username }) => {
     };
 
     checkUsername();
-
-  },[username]);
+  }, [username]);
 
   return (
     <div>
       <Navi />
 
-      {usernameExists ? ( // Conditionally render based on usernameExists
+      {usernameExists ? (
         <div className="centered-container">
           <h2 className="text-2xl font-mono text-gray-500 text-center">
             Send messages to {username}
@@ -92,19 +94,27 @@ const Deployed = ({ username }) => {
               ></textarea>
             </div>
             <br />
-    
-            <button
-              type="button"
-              className="text-xl"
-              onClick={handleSubmit}
-            >
-              Send
-            </button>
-          
+
+            {/* Conditional rendering based on loading state */}
+            {loading ? (
+              <button
+                className="text-xl bg-gray-400 p-2 rounded-lg text-white cursor-not-allowed"
+                disabled
+              >
+                Sending...
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="text-xl bg-green-500 p-2 rounded-lg text-white hover:bg-green-700"
+                onClick={handleSubmit}
+              >
+                Send
+              </button>
+            )}
           </form>
         </div>
       ) : (
-        // Render this if username does not exist
         <div className="second-condition-div">
           <h2 className="text-2xl font-mono text-gray-500 text-center">
             Username not found. Please check the username.
@@ -112,7 +122,7 @@ const Deployed = ({ username }) => {
         </div>
       )}
 
-      <Footer/>
+      <Footer />
       <ToastContainer />
     </div>
   );

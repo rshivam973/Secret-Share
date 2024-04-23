@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navi from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
+const BackendURL = process.env.REACT_APP_BACKEND_URL;
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -16,6 +17,7 @@ const Register = () => {
     confirmPassword: "",
   });
 
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
@@ -61,7 +63,8 @@ const Register = () => {
     event.preventDefault();
     if (validateForm()) {
       try {
-        const response = await fetch("http://localhost:5000/register", {
+        setLoading(true);
+        const response = await fetch(`${BackendURL}/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(user),
@@ -84,6 +87,8 @@ const Register = () => {
       } catch (error) {
         console.error(error);
         toast.error("An error occurred");
+      }finally {
+        setLoading(false); // Stop loading
       }
     }
   };
@@ -188,14 +193,25 @@ const Register = () => {
                     />
                   </div>
                   <div className="mt-10">
-                    <button
+                    {loading ? (
+                      <button
                       className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
                           font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
-                          shadow-lg"
-                      onClick={register}
+                          shadow-lg cursor-not-allowed opacity-50" disabled
                     >
-                      Sign Up
+                      Signing Up
                     </button>
+                    ):(
+
+                      <button
+                        className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
+                            font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
+                            shadow-lg"
+                        onClick={register}
+                      >
+                        Sign Up
+                      </button>
+                    )}
                   </div>
                 </form>
                 <div

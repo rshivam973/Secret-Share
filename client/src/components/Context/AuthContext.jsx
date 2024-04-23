@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
+const BackendURL = process.env.REACT_APP_BACKEND_URL;
 
 const usernameExists = async (username) => {
   try {
-    const response = await fetch(`http://localhost:5000/check-username?username=${username}`);
+    const response = await fetch(`${BackendURL}/check-username?username=${username}`);
     const data = await response.json();
     return data.exists;
   } catch (error) {

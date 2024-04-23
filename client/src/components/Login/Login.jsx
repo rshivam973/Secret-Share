@@ -1,3 +1,4 @@
+import './Login.css';
 import React from "react";
 import { useState, useEffect, useContext} from "react";
 import Navi from "../Navbar/Navbar";
@@ -6,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../Context/AuthContext";
+const BackendURL = process.env.REACT_APP_BACKEND_URL;
 
 
 
@@ -15,6 +17,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -38,9 +41,10 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch(`${BackendURL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,6 +74,8 @@ const Login = () => {
       console.error(err);
       toast.error("An error occurred. Please try again later.");
       setMessage("An error occurred. Please try again later.");
+    }finally {
+      setLoading(false); // Set loading to false after login attempt
     }
   };
 
@@ -77,6 +83,7 @@ const Login = () => {
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("user");
+    setIsLoggedIn(false);
     setIsLoggedIn(false);
     window.location.reload();
     navigate("/login"); // Redirect to login page or desired page
@@ -154,15 +161,26 @@ const Login = () => {
                     />
                   </div>
                   <div className="mt-10">
-                    <button
+                    {/* Conditional rendering for loading spinner */}
+                    {loading ? (
+                      <button
                       className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
+                        font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
+                        shadow-lg cursor-not-allowed opacity-50" disabled
+                    >
+                      Logging In
+                    </button>
+                    ) : (
+                      <button
+                        className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
                           font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
                           shadow-lg"
-                      onClick={handleLogin}
-                    >
-                      Log In
-                    </button>
-                    <p className="message">{message}</p>
+                        onClick={handleLogin}
+                      >
+                        Log In
+                      </button>
+                    )}
+                    {/* <p className="message">{message}</p> */}
                   </div>
                 </form>
                 <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">

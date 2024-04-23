@@ -390,7 +390,7 @@ const Register = () => {
         </div>
         <ToastContainer />
       </>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

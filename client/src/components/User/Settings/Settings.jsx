@@ -24,7 +24,7 @@ const Settings = () => {
             Settings
         </div>
         
-        <Footer/>
+        {/* <Footer/> */}
     </div>
   )
 }

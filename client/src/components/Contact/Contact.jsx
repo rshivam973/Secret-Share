@@ -9,7 +9,7 @@ const Contact = () => {
       <div style={{display:"flex",flexDirection:"column",height:"80vh"}}>
       Contact
       </div>
-      <Footer/>
+      {/* <Footer/> */}
 
     </div>
   )

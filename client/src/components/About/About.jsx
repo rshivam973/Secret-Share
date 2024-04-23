@@ -9,7 +9,7 @@ const About = () => {
       <div style={{display:"flex",flexDirection:"column",height:"80vh"}}>
       About
       </div>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   )
 }

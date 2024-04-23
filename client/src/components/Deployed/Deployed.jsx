@@ -122,7 +122,7 @@ const Deployed = ({ username }) => {
         </div>
       )}
 
-      <Footer />
+      {/* <Footer /> */}
       <ToastContainer />
     </div>
   );

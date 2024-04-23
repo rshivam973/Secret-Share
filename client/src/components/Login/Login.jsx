@@ -356,7 +356,7 @@ const Login = () => {
           <ToastContainer />
         </div>
       </>
-      <Footer />
+      {/* <Footer /> */}
 
     </div>
   );

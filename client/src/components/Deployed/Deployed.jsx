@@ -87,9 +87,9 @@ const Deployed = ({ username }) => {
                     setMessageContent(e.target.value);
                   }
                 }}
-                className="font-mono italic border-2 border-gray-500 border-double"
+                className="font-mono italic border-2 border-gray-500 border-double w-auto"
                 rows={10}
-                cols={50}
+                cols={40}
                 placeholder="Enter your message here"
               ></textarea>
             </div>

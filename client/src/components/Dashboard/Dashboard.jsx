@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 const BackendURL = process.env.REACT_APP_BACKEND_URL;
+const frontendURL = 'https://secret-share-ebon.vercel.app'
 
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
@@ -101,14 +102,14 @@ const Dashboard = () => {
   return (
     <div>
       <Navi />
-      {console.log(user)};
-      {console.log(userDetail)};
-      <div className="w-50 mx-40 border-2 flex justify-center main-div border-indigo-600">
-        Share your link:
+      {console.log(user)}
+      {console.log(userDetail)}
+      <div className="w-50 md:mx-40 border-2 flex flex-col md:flex-row md:p-4 justify-center main-div border-indigo-600 mt-2">
+        <p>Share your link:</p>
         <br />
         <span>
           secretshare.me/{userDetail.username}
-          <button className="ml-2" onClick={() => handleCopy(`https://secret-share-ebon.vercel.app/${userDetail.username}`)}><FontAwesomeIcon icon={faCopy} size="lg" /></button>
+          <button className="ml-2" onClick={() => handleCopy(`${frontendURL}/${userDetail.username}`)}><FontAwesomeIcon icon={faCopy} size="lg" /></button>
         </span>
       </div>
       {userDetail && (

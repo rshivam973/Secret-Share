@@ -123,12 +123,12 @@ const Navi = () => {
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* Profile menu */}
-              {isLoggedIn && (
+              {isLoggedIn===true && (
               <div className="ml-3 relative">
                 <div>
                   <button type="button" className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu" aria-expanded="false" aria-haspopup="true" onClick={handleProfileMenuToggle} >
                     <span className="sr-only">Open user menu</span>
-                    <img className="h-8 w-8 rounded-full" src="/profile-pic.jpg" alt="Profile" />
+                    <img className="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8pqpC6IgkvdxOH-qCcentLTmv_U4TeAVMPutepRWn9w&s" alt="Profile" />
                   </button>
                 </div>
                 {isProfileMenuOpen && (

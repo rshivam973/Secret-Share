@@ -108,7 +108,7 @@ const Dashboard = () => {
         <br />
         <span>
           secretshare.me/{userDetail.username}
-          <button className="ml-2" onClick={() => handleCopy(`localhost:3000/${userDetail.username}`)}><FontAwesomeIcon icon={faCopy} size="lg" /></button>
+          <button className="ml-2" onClick={() => handleCopy(`https://secret-share-ebon.vercel.app/${userDetail.username}`)}><FontAwesomeIcon icon={faCopy} size="lg" /></button>
         </span>
       </div>
       {userDetail && (
